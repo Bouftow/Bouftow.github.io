@@ -1,38 +1,45 @@
-# Configuración básica
-title: Mi Sitio Web
-description: Este es mi sitio creado con Jekyll y GitHub Pages
-baseurl: "" # Deja vacío para proyectos user/org
-url: "https://boutflow.github.io"
+name: Deploy to GitHub Pages
 
-# Tema (elige uno de los siguientes)
-theme: minima
-# theme: jekyll-theme-cayman
-# theme: jekyll-theme-midnight
-# theme: jekyll-theme-architect
-# theme: jekyll-theme-slate
-# theme: jekyll-theme-hacker
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
 
-# Plugins
-plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
-  - jekyll-sitemap
+permissions:
+  contents: read
+  pages: write
+  id-token: write
 
-# Configuración del blog
-author:
-  name: Boutflow
-  email: tu-email@ejemplo.com
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
-# Opciones de construcción
-markdown: kramdown
-highlighter: rouge
-permalink: /:categories/:title/
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
 
-# Configuración para GitHub Pages
-github:
-  repository_url: https://github.com/boutflow/boutflow.github.io
-
-# Redes sociales (opcional)
-social:
-  twitter: tucuenta
-  github: boutflow
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
