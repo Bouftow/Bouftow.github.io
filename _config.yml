@@ -1,3 +1,38 @@
-theme: jekyll-theme-minimal
-title: Octocat's homepage
-description: Bookmark this to keep an eye on my project updates!
+# Configuración básica
+title: Mi Sitio Web
+description: Este es mi sitio creado con Jekyll y GitHub Pages
+baseurl: "" # Deja vacío para proyectos user/org
+url: "https://boutflow.github.io"
+
+# Tema (elige uno de los siguientes)
+theme: minima
+# theme: jekyll-theme-cayman
+# theme: jekyll-theme-midnight
+# theme: jekyll-theme-architect
+# theme: jekyll-theme-slate
+# theme: jekyll-theme-hacker
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Configuración del blog
+author:
+  name: Boutflow
+  email: tu-email@ejemplo.com
+
+# Opciones de construcción
+markdown: kramdown
+highlighter: rouge
+permalink: /:categories/:title/
+
+# Configuración para GitHub Pages
+github:
+  repository_url: https://github.com/boutflow/boutflow.github.io
+
+# Redes sociales (opcional)
+social:
+  twitter: tucuenta
+  github: boutflow
